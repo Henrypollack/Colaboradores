@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Texto para WhatsApp</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Texto para WhatsApp</h1>
+        <form id="geradorForm">
+            <label for="dia">Selecione o dia:</label>
+            <input type="date" id="dia" name="dia" required>
+
+            <div id="conjuntos">
+                <div class="conjunto">
+                    <label for="mercado">Selecione o mercado:</label>
+                    <select class="mercado" name="mercado">
+                        <option value="Condor Água Verde">Condor Água Verde</option>
+                        <option value="Condor Novo Mundo">Condor Novo Mundo</option>
+                    </select>
+
+                    <label for="area">Selecione a área:</label>
+                    <select class="area" name="area">
+                        <option value="Corte Hortfruit">Corte Hortfruit</option>
+                        <option value="Padaria">Padaria</option>
+                    </select>
+
+                    <label for="horaEntrada">Hora de entrada:</label>
+                    <input type="time" class="horaEntrada" name="horaEntrada" required>
+                </div>
+            </div>
+
+            <button type="button" id="adicionarConjunto">Adicionar Conjunto</button>
+        </form>
+
+        <table id="tabelaConjuntos">
+            <thead>
+                <tr>
+                    <th>Mercado</th>
+                    <th>Área</th>
+                    <th>Hora de Entrada</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <button type="button" id="gerarTextoButton">Gerar Texto</button>
+
+        <h2>Texto Gerado</h2>
+        <textarea id="textoGerado" readonly></textarea>
+    </div>
+
+    <script src="src/script.js"></script>
+</body>
+</html>
