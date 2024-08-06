@@ -9,6 +9,8 @@
 <body>
     <div class="container">
         <h1>Gerador de Texto para WhatsApp</h1>
+        <a href="gerenciarFuncionarios.html" class="voltarBtn">Clique aqui para Gerenciar Funcionários Cadastrados</a>
+        
         <form id="geradorForm">
             <label for="dia">Selecione o dia:</label>
             <input type="date" id="dia" name="dia" required>
@@ -29,6 +31,11 @@
 
                     <label for="horaEntrada">Hora de entrada:</label>
                     <input type="time" class="horaEntrada" name="horaEntrada" required>
+
+                    <label for="nomeFuncionario">Nome do funcionário:</label>
+                    <select class="nomeFuncionario" name="nomeFuncionario">
+                        <!-- Opções serão preenchidas via JavaScript -->
+                    </select>
                 </div>
             </div>
 
@@ -41,6 +48,7 @@
                     <th>Mercado</th>
                     <th>Área</th>
                     <th>Hora de Entrada</th>
+                    <th>Nome do Funcionário</th>
                 </tr>
             </thead>
             <tbody>
