@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     carregarFuncionarios(); // Carregar funcionários cadastrados
     carregarSelecoes(); // Carregar seleções salvas
-    
+
     document.getElementById('adicionarConjunto').addEventListener('click', adicionarConjunto);
     document.getElementById('gerarTextoButton').addEventListener('click', gerarTexto);
-    
+
     // Adicionar eventos para salvar as seleções
     document.querySelector('.mercado').addEventListener('change', salvarSelecoes);
     document.querySelector('.area').addEventListener('change', salvarSelecoes);
@@ -12,48 +12,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.querySelector('.nomeFuncionario').addEventListener('change', salvarSelecoes);
     document.getElementById('dia').addEventListener('change', salvarSelecoes);
 });
-
-function carregarFuncionarios() {
-    const funcionarios = JSON.parse(localStorage.getItem('funcionarios')) || [];
-    const selectFuncionario = document.querySelector('.nomeFuncionario');
-
-    selectFuncionario.innerHTML = ''; // Limpar opções existentes
-
-    funcionarios.forEach(funcionario => {
-        const option = document.createElement('option');
-        option.value = funcionario.nome;
-        option.textContent = `${funcionario.nome} - \n${funcionario.cpf}`;
-        selectFuncionario.appendChild(option);
-    });
-}
-
-function carregarSelecoes() {
-    const mercado = localStorage.getItem('mercado') || '';
-    const area = localStorage.getItem('area') || '';
-    const horaEntrada = localStorage.getItem('horaEntrada') || '';
-    const nomeFuncionario = localStorage.getItem('nomeFuncionario') || '';
-    const dia = localStorage.getItem('dia') || '';
-
-    document.querySelector('.mercado').value = mercado;
-    document.querySelector('.area').value = area;
-    document.querySelector('.horaEntrada').value = horaEntrada;
-    document.querySelector('.nomeFuncionario').value = nomeFuncionario;
-    document.getElementById('dia').value = dia;
-}
-
-function salvarSelecoes() {
-    const mercado = document.querySelector('.mercado').value;
-    const area = document.querySelector('.area').value;
-    const horaEntrada = document.querySelector('.horaEntrada').value;
-    const nomeFuncionario = document.querySelector('.nomeFuncionario').value;
-    const dia = document.getElementById('dia').value;
-
-    localStorage.setItem('mercado', mercado);
-    localStorage.setItem('area', area);
-    localStorage.setItem('horaEntrada', horaEntrada);
-    localStorage.setItem('nomeFuncionario', nomeFuncionario);
-    localStorage.setItem('dia', dia);
-}
 
 function adicionarConjunto() {
     const mercado = document.querySelector('.mercado').value;
@@ -73,13 +31,27 @@ function adicionarConjunto() {
     const areaCell = newRow.insertCell(1);
     const horaCell = newRow.insertCell(2);
     const nomeFuncionarioCell = newRow.insertCell(3);
+    const acaoCell = newRow.insertCell(4); // Adicione esta célula
 
     mercadoCell.textContent = mercado;
     areaCell.textContent = area;
     horaCell.textContent = horaEntrada;
     nomeFuncionarioCell.textContent = nomeFuncionario;
 
+    // Adicionar botão de remover
+    const removerBtn = document.createElement('button');
+    removerBtn.textContent = 'X';
+    removerBtn.className = 'removerBtn';
+    removerBtn.addEventListener('click', () => {
+        removerConjunto(newRow);
+    });
+    acaoCell.appendChild(removerBtn);
+
     // Não limpar os campos após adicionar o conjunto
+}
+
+function removerConjunto(row) {
+    row.remove();
 }
 
 function gerarTexto() {
@@ -125,4 +97,51 @@ function gerarTexto() {
     });
 
     document.getElementById('textoGerado').value = texto.trim();
+}
+
+function salvarSelecoes() {
+    // Salvar seleções no localStorage ou cookies
+    const mercado = document.querySelector('.mercado').value;
+    const area = document.querySelector('.area').value;
+    const horaEntrada = document.querySelector('.horaEntrada').value;
+    const nomeFuncionario = document.querySelector('.nomeFuncionario').value;
+    const dia = document.getElementById('dia').value;
+
+    const selecoes = {
+        mercado,
+        area,
+        horaEntrada,
+        nomeFuncionario,
+        dia
+    };
+
+    localStorage.setItem('selecoes', JSON.stringify(selecoes));
+}
+
+function carregarSelecoes() {
+    // Carregar seleções do localStorage
+    const selecoes = JSON.parse(localStorage.getItem('selecoes'));
+
+    if (selecoes) {
+        document.querySelector('.mercado').value = selecoes.mercado || '';
+        document.querySelector('.area').value = selecoes.area || '';
+        document.querySelector('.horaEntrada').value = selecoes.horaEntrada || '';
+        document.querySelector('.nomeFuncionario').value = selecoes.nomeFuncionario || '';
+        document.getElementById('dia').value = selecoes.dia || '';
+    }
+}
+
+function carregarFuncionarios() {
+    // Carregar funcionários do localStorage
+    const funcionarios = JSON.parse(localStorage.getItem('funcionarios')) || [];
+
+    const funcionarioSelect = document.querySelector('.nomeFuncionario');
+    funcionarioSelect.innerHTML = '';
+
+    funcionarios.forEach(funcionario => {
+        const option = document.createElement('option');
+        option.value = funcionario.nome;
+        option.textContent = `${funcionario.nome}\n${funcionario.cpf}`;
+        funcionarioSelect.appendChild(option);
+    });
 }

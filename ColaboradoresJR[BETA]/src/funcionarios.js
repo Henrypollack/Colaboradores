@@ -1,9 +1,31 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    // Carregar funcionários do cache ou cookies
     carregarFuncionarios();
 
     document.getElementById('adicionarFuncionario').addEventListener('click', adicionarFuncionario);
 });
+
+function carregarFuncionarios() {
+    const funcionarios = JSON.parse(localStorage.getItem('funcionarios')) || [];
+    const tabelaFuncionarios = document.querySelector('#tabelaFuncionarios tbody');
+
+    tabelaFuncionarios.innerHTML = ''; // Limpar tabela
+
+    funcionarios.forEach((funcionario, index) => {
+        const row = tabelaFuncionarios.insertRow();
+
+        const nomeCell = row.insertCell(0);
+        const cpfCell = row.insertCell(1);
+        const acaoCell = row.insertCell(2);
+
+        nomeCell.textContent = funcionario.nome;
+        cpfCell.textContent = funcionario.cpf;
+
+        const deletarButton = document.createElement('button');
+        deletarButton.textContent = 'Deletar';
+        deletarButton.addEventListener('click', () => deletarFuncionario(index));
+        acaoCell.appendChild(deletarButton);
+    });
+}
 
 function adicionarFuncionario() {
     const nome = document.getElementById('nome').value;
@@ -14,71 +36,17 @@ function adicionarFuncionario() {
         return;
     }
 
-    // Adicionar à tabela
-    const tableBody = document.querySelector('#tabelaFuncionarios tbody');
-    const newRow = tableBody.insertRow();
-
-    const nomeCell = newRow.insertCell(0);
-    const cpfCell = newRow.insertCell(1);
-    const acaoCell = newRow.insertCell(2);
-
-    nomeCell.textContent = nome;
-    cpfCell.textContent = cpf;
-
-    // Botão de remover
-    const removerBtn = document.createElement('button');
-    removerBtn.textContent = 'X';
-    removerBtn.className = 'removerBtn';
-    removerBtn.addEventListener('click', () => {
-        removerFuncionario(nome, cpf, newRow);
-    });
-    acaoCell.appendChild(removerBtn);
-
-    // Salvar no cache ou cookies
-    salvarFuncionario(nome, cpf);
-
-    // Limpar campos
-    document.getElementById('nome').value = '';
-    document.getElementById('cpf').value = '';
-}
-
-function salvarFuncionario(nome, cpf) {
-    let funcionarios = JSON.parse(localStorage.getItem('funcionarios')) || [];
-    funcionarios.push({ nome, cpf });
-    localStorage.setItem('funcionarios', JSON.stringify(funcionarios));
-}
-
-function carregarFuncionarios() {
     const funcionarios = JSON.parse(localStorage.getItem('funcionarios')) || [];
-    const tableBody = document.querySelector('#tabelaFuncionarios tbody');
+    funcionarios.push({ nome, cpf });
 
-    funcionarios.forEach(funcionario => {
-        const newRow = tableBody.insertRow();
-
-        const nomeCell = newRow.insertCell(0);
-        const cpfCell = newRow.insertCell(1);
-        const acaoCell = newRow.insertCell(2);
-
-        nomeCell.textContent = funcionario.nome;
-        cpfCell.textContent = funcionario.cpf;
-
-        // Botão de remover
-        const removerBtn = document.createElement('button');
-        removerBtn.textContent = 'X';
-        removerBtn.className = 'removerBtn';
-        removerBtn.addEventListener('click', () => {
-            removerFuncionario(funcionario.nome, funcionario.cpf, newRow);
-        });
-        acaoCell.appendChild(removerBtn);
-    });
+    localStorage.setItem('funcionarios', JSON.stringify(funcionarios));
+    carregarFuncionarios();
 }
 
-function removerFuncionario(nome, cpf, row) {
-    // Remover da tabela
-    row.remove();
+function deletarFuncionario(index) {
+    const funcionarios = JSON.parse(localStorage.getItem('funcionarios')) || [];
+    funcionarios.splice(index, 1);
 
-    // Remover do armazenamento local
-    let funcionarios = JSON.parse(localStorage.getItem('funcionarios')) || [];
-    funcionarios = funcionarios.filter(func => func.nome !== nome || func.cpf !== cpf);
     localStorage.setItem('funcionarios', JSON.stringify(funcionarios));
+    carregarFuncionarios();
 }

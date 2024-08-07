@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de Texto para WhatsApp</title>
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/style_index.css">
 </head>
 <body>
     <div class="container">
         <h1>Gerador de Texto para WhatsApp</h1>
+        <div class="message-balloon">
+  <p>
+    Bem-vindo ao site para gerar escalas para ser enviadas pro WhatsApp! Antes de começar, siga estas etapas para aproveitar ao máximo a ferramenta:
+    <br><br>
+    1. Primeiro, vá para a <strong>página de Gerenciamento de Funcionários</strong> e adicione todos os funcionários que você deseja incluir nas escalas. 
+    <br><br>
+    2. Após cadastrar os funcionários, retorne à página principal e selecione as opções de mercado, área e horários para gerar a mensagem de escala de trabalho.
+    <br><br>
+    3. Você pode revisar a mensagem gerada e copiá-la para o WhatsApp para compartilhamento.
+    <br><br>
+    Se precisar de ajuda adicional, consulte a seção de ajuda ou entre em contato com o suporte.
+  </p>
+</div>
         <a href="gerenciarFuncionarios.html" class="voltarBtn">Clique aqui para Gerenciar Funcionários Cadastrados</a>
         
         <form id="geradorForm">
@@ -49,6 +62,7 @@
                     <th>Área</th>
                     <th>Hora de Entrada</th>
                     <th>Nome do Funcionário</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +73,7 @@
 
         <h2>Texto Gerado</h2>
         <textarea id="textoGerado" readonly></textarea>
+        <button type="button" id="copiarTextoButton">Copiar Texto</button>
     </div>
 
     <script src="src/script.js"></script>
